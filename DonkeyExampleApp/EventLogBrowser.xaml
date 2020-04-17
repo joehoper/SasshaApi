@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="DonkeyExampleApp.EventLogBrowser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dea="clr-namespace:DonkeyExampleApp"
+             mc:Ignorable="d" 
+             d:DesignHeight="493" d:DesignWidth="754">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles.xaml" />
+                <ResourceDictionary>
+                    <!-- Commands -->
+                    <RoutedUICommand x:Key="FetchEventLogs" Text="Fetch event logs" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <UserControl.CommandBindings>
+        <CommandBinding Command="{StaticResource FetchEventLogs}" Executed="FetchEventLogs_Executed" />
+    </UserControl.CommandBindings>
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <GroupBox Grid.Row="0" Header="Poll parameters" Margin="4">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Fetch events since" Margin="4" VerticalAlignment="Center" />
+                <DatePicker Grid.Column="1" SelectedDate="{Binding Path=Config.LastPoll}" Margin="4" />
+                <Button Grid.Column="2" Content="Fetch logs" Style="{StaticResource CommandButtonStyle}" Command="{StaticResource FetchEventLogs}" />
+            </Grid>
+        </GroupBox>
+        
+        <GroupBox Grid.Row="1" Header="Event log" Margin="4">
+            <ListView ItemsSource="{Binding RepairNotes}" Margin="8">
+                <ListView.Resources>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="VerticalContentAlignment" Value="Top" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateTime, StringFormat='dd-MMM-yyyy HH:mm:ss'}" Width="120" />
+                        <GridViewColumn Header="Repair ID" DisplayMemberBinding="{Binding RepairId}" Width="100" />
+                        <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="120" />
+                        <GridViewColumn Header="Note" DisplayMemberBinding="{Binding Text}" Width="600" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+    </Grid>
+</UserControl>

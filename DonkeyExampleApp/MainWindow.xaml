@@ -1,0 +1,52 @@
+﻿<Window x:Class="DonkeyExampleApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:dea="clr-namespace:DonkeyExampleApp"
+        mc:Ignorable="d" UseLayoutRounding="True" Loaded="Window_Loaded"
+        Title="SASSHA API repairs example app" Height="864" Width="1719">
+    <Window.Resources>
+        <ResourceDictionary Source="Styles.xaml" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="0,0,0,1">
+            <Grid Margin="8">
+                <TextBlock Text="SASSHA API repairs example app" FontSize="16" Margin="4" />
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="1" Margin="8">
+            <TabItem Header="Repairs browser">
+                <dea:RepairsBrowser />
+            </TabItem>
+            <TabItem Header="Event log polling">
+                <dea:EventLogBrowser />
+            </TabItem>
+        </TabControl>
+
+        <Border Grid.Row="2" Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" BorderThickness="0,1,0,0">
+            <StatusBar Margin="4">
+                <StatusBarItem Visibility="{Binding Busy, Converter={StaticResource btvc}}">
+                    <Control Style="{StaticResource WaitSpinnerStyle}" Height="16" Foreground="Orange" />
+                </StatusBarItem>
+                <StatusBarItem Content="{Binding Status}" />
+                <StatusBarItem HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <StatusBarItem Content="{Binding Config.ApiUrl}" />
+                        <Border Background="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" Width="1" Margin="4" />
+                        <StatusBarItem>
+                            <TextBlock Text="{Binding Path=Config.ContractorCode, StringFormat='Contractor = {0}'}" />
+                        </StatusBarItem>
+                    </StackPanel>
+                </StatusBarItem>
+            </StatusBar>
+        </Border>
+    </Grid>
+</Window>
